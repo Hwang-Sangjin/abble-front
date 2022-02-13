@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import {useState, useEffect} from 'react';
-import { useStore } from '../hooks/useStore';
-import * as textures from '../textures';
+import { useStore } from '../../hooks/useStore';
+import * as textures from '../../assets/textures';
 
 // ui는 전부다 box로 감. 해커톤 끝나고 계속 진행되면 그때 htm으로 바꾸면 됨.
 // count : 임시값 6 주면 됨.
@@ -83,18 +83,21 @@ export const Hud = ({position}) => {
         }
     }, [setHudVisible, activeTexture]);
     return (
-        hudVisible && (
-            <group position={hudState.position} rotation={hudState.rotation}>
-                <group position={position}>
-                    <MaterialContainer
-                        args={[1.3, 0.3, 0.01]} // 동적 사이즈 구현해야함.
-                        color="#222"
-                        activeTexture={activeTexture}
-                        hudVisible={hudVisible}
-                    />
-                </group>
-            </group>
-        )
+        <>
+            {
+                hudVisible && (
+                    <group position={hudState.position} rotation={hudState.rotation}>
+                        <group position={position}>
+                            <MaterialContainer
+                                args={[1.3, 0.3, 0.01]} // 동적 사이즈 구현해야함.
+                                color="#222"
+                                activeTexture={activeTexture}
+                                hudVisible={hudVisible}
+                            />
+                        </group>
+                    </group>
+                )
+            }
+        </>   
     )
-
 }

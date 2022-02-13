@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {useStore} from './useStore';
-import * as nftModels from '../nftModels';
+import * as nftModels from '../assets/nftModels';
 
 function actionByKey(key) {
     const keys = {
