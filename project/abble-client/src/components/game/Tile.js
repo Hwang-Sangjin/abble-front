@@ -4,7 +4,7 @@ import { useState, memo, useRef, useEffect } from 'react';
 import * as textures from '../../assets/textures';
 
 
-const Tile = ({ position, texture, addTile, removeTile }) => {
+const Tile = ({ position, tileTexture, addTile, removeTile }) => {
 
     const [hover, setHover] = useState(null);
 
@@ -14,7 +14,7 @@ const Tile = ({ position, texture, addTile, removeTile }) => {
         position,
     }))
 
-    const color = texture === 'glass' ? 'skyblue' : 'white';
+    const color = tileTexture === 'glass' ? 'skyblue' : 'white';
     return (
         <mesh
             castShadow
@@ -65,9 +65,9 @@ const Tile = ({ position, texture, addTile, removeTile }) => {
             />
             <meshStandardMaterial
                 attach="material"
-                map={textures[texture]}
+                map={textures[tileTexture]}
                 color={hover != null ? 'gray' : color}
-                opacity={texture === 'glass' ? 0.7 : 1}
+                opacity={tileTexture === 'glass' ? 0.7 : 1}
                 transparent={true}
             />
         </mesh>
@@ -82,7 +82,7 @@ function equalProps(prevProps, nextProps) {
         prevProps.position.y === nextProps.position.y &&
         prevProps.position.z === nextProps.position.z;
 
-    return equalPosition && prevProps.texture === nextProps.texture;
+    return equalPosition && prevProps.tileTexture === nextProps.tileTexture;
 }
 
 export default memo(Tile, equalProps);     

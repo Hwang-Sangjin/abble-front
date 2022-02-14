@@ -7,17 +7,18 @@ import grass from '../../images/grass.jpg';
 
 export const Ground = (props) => {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
-  const texture = new TextureLoader().load(grass); // TODO : grass 교체.
+  // F-1 : Ground 텍스쳐 변경.
+  const groundTexture = new TextureLoader().load(grass);
 
-  const [addTile, activeTexture] = useStore((state) => [
+  const [addTile, activeTileTexture] = useStore((state) => [
     state.addTile,
-    state.texture,
+    state.tileTexture,
   ]);
-  texture.magFilter = NearestFilter;
-  texture.minFilter = LinearMipMapLinearFilter;
-  texture.wrapS = RepeatWrapping;
-  texture.wrapT = RepeatWrapping;
-  texture.repeat.set(50, 50); // 50*50 사이즈.
+  groundTexture.magFilter = NearestFilter;
+  groundTexture.minFilter = LinearMipMapLinearFilter;
+  groundTexture.wrapS = RepeatWrapping;
+  groundTexture.wrapT = RepeatWrapping;
+  groundTexture.repeat.set(50, 50); // 50*50 사이즈.
   return (
     <group>
       <mesh
@@ -28,11 +29,11 @@ export const Ground = (props) => {
           const [x, y, z] = Object.values(e.point).map((coord) =>
             Math.ceil(coord),
           );
-          addTile(x, y, z, activeTexture);
+          addTile(x, y, z, activeTileTexture);
         }}
       >
         <planeBufferGeometry attach="geometry" args={[50, 50]} />
-        <meshStandardMaterial map={texture} attach="material" />
+        <meshStandardMaterial map={groundTexture} attach="material" />
       </mesh>
 
       {/* 이그드라실 - 컴포넌트 분리시켜야함. */}

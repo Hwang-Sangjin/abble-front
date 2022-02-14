@@ -1,31 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import GameSection from '../components/gameSection'
 import {Game} from '../components/game';
 import { JoinRoom } from '../components/joinRoom';
 import GameContext, { IGameContextProps } from "../contexts/gameContext";
+import ChatContext, { IChatContextProps } from "../contexts/chatContext";
 
 
 
 const GamePage = () => {
 
   const [isInRoom, setInRoom] = useState(false);
-  // 아바타 만들고 구현해야될거. 없는 데이터 일단 적어놨음.
-  const [playerAvatar, setPlayerAvatar] = useState<any>("사슴");
-  const [playerMovment, setPlayerMovment] = useState<any>([0,0,0]);
+  const [playerPosition, setPlayerPosition] = useState<[number,number,number]>([0,0,0]);
+  const [playerAvatar, setPlayerAvatar] = useState<string>("cube");
 
   const gameContextValue: IGameContextProps = {
     isInRoom,
     setInRoom,
+    playerPosition,
+    setPlayerPosition,
     playerAvatar,
     setPlayerAvatar,
-    playerMovment,
-    setPlayerMovment,
+  }
+
+  const [message, setMessage] = useState<string>("");
+
+  const chatContextValue: IChatContextProps = {
+    message,
+    setMessage,
   }
 
   return (
     // <GameSection/>
     <GameContext.Provider value={gameContextValue}>    
-      {isInRoom ? <Game/> : <JoinRoom/>}
+      <ChatContext.Provider value={chatContextValue}>
+        {isInRoom ? <Game/> : <JoinRoom/>}
+      </ChatContext.Provider>
     </GameContext.Provider>
   )
 }

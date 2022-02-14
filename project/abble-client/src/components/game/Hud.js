@@ -5,7 +5,7 @@ import * as textures from '../../assets/textures';
 
 // ui는 전부다 box로 감. 해커톤 끝나고 계속 진행되면 그때 htm으로 바꾸면 됨.
 // count : 임시값 6 주면 됨.
-const Material = ({args, color, texture, isActive, count, ...props}) => {
+const Material = ({args, color, tileTexture, isActive, count, ...props}) => {
     // const boxRef = ref; // useRef() 이거 받아주는게 의미 있을까? 쓸일이 없을 것 같은데. 구지 쓸라카면 forwardRef로 받아줘야할건데 딱히? 일단 고민. 쓸일 있으면 쓰것지.
     return (
         <mesh {...props}>
@@ -14,7 +14,7 @@ const Material = ({args, color, texture, isActive, count, ...props}) => {
                 return (
                     <meshStandardMaterial
                         attachArray="material"
-                        map={texture}
+                        map={tileTexture}
                         key={index}
                         transparent={true}
                         opacity={isActive ? 1 : 0.3}
@@ -25,8 +25,9 @@ const Material = ({args, color, texture, isActive, count, ...props}) => {
     )
 }
 
-const MaterialContainer = ({args, color, activeTexture, ...props}) => {
-    const activeTextureIndex = Object.keys(textures).indexOf(activeTexture);
+const MaterialContainer = ({args, color, activeTileTexture, ...props}) => {
+    const activeTileTextureIndex = Object.keys(textures).indexOf(activeTileTexture);
+    
     return(
         <mesh {...props}>
             {Object.keys(textures).map((key, index) => {
@@ -34,8 +35,8 @@ const MaterialContainer = ({args, color, activeTexture, ...props}) => {
                 <Material
                     key={key}
                     count={6}
-                    isActive={activeTextureIndex === index}
-                    texture={textures[key]}
+                    isActive={activeTileTextureIndex === index}
+                    tileTexture={textures[key]}
                     args={[0.2, 0.2, 0.05]}
                     position={[-0.5 + index / 4, 0, 0.01]} // 오브젝트 간격
                 />
@@ -61,7 +62,7 @@ export const Hud = ({position}) => {
         opacity: 0,
     }));
     const [hudVisible, setHudVisible] = useState(false);
-    const [activeTexture] = useStore((state) => [state.texture]); // Store 이걸 DB로 바꾸면 됨. Store가 개인이 가지고 있는 NFT와 게임 아이템임. 우리가 들고있다가 넘겨주는 식으로 주면 될듯. state로 관리.
+    const [activeTileTexture] = useStore((state) => [state.tileTexture]); // Store 이걸 DB로 바꾸면 됨. Store가 개인이 가지고 있는 NFT와 게임 아이템임. 우리가 들고있다가 넘겨주는 식으로 주면 될듯. state로 관리.
     useFrame(() => {
         // 항상 카메라 정면 출력. 이대로 두면 ui가 휙 날아옴. 화면 이동이 완료된 후 출력되길 원하면 opacity를 timeout해주거나 position이 원하는 위치에 왔을때 visible을 켜줘버리면 됨.
         const {x,y,z} = camera.position;
@@ -81,7 +82,7 @@ export const Hud = ({position}) => {
         return () => {
             clearTimeout(hudVisibilityTimeout);
         }
-    }, [setHudVisible, activeTexture]);
+    }, [setHudVisible, activeTileTexture]);
     return (
         <>
             {
@@ -91,7 +92,7 @@ export const Hud = ({position}) => {
                             <MaterialContainer
                                 args={[1.3, 0.3, 0.01]} // 동적 사이즈 구현해야함.
                                 color="#222"
-                                activeTexture={activeTexture}
+                                activeTileTexture={activeTileTexture}
                                 hudVisible={hudVisible}
                             />
                         </group>

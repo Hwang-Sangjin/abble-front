@@ -22,7 +22,7 @@ export default function Tiles() {
         return (
             <Tile
                 key={tile.key}
-                texture={tile.texture}
+                tileTexture={tile.tileTexture}
                 position={tile.pos}
                 addTile={addTile}
                 removeTile={removeTile}

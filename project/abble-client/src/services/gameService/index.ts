@@ -1,4 +1,5 @@
-import { IPlayMovement } from './../../components/game/index';
+// import { IPlayerPosition } from './../../components/game/index';
+import { rmSync } from 'fs';
 import { Socket } from 'socket.io-client';
 
 // on과 emit 어렵게 생각할거 없음.
@@ -14,12 +15,22 @@ class GameService {
         })
     }
 
-    public async updateGame(socket: Socket, playerPosition: IPlayMovement){
-        socket.emit("update_game", { movement: playerPosition });
+    public async updateAvatar(socket: Socket, playerAvatar: string){
+        socket.emit("update_avatar", { avatar: playerAvatar});
+        console.log(`Client Update Avatar : ${playerAvatar}`);
     }
 
-    public async onGameUpdate(socket: Socket, listener: (movement: IPlayMovement) => void){
-        socket.on("on_game_update", ({movement}) => listener(movement));
+    public async onAvatar(socket: Socket, avatar: any) {
+        socket.on("on_avatar", avatar);
+        console.log("onAvatar : " + avatar);
+    }
+
+    public async updateGame(socket: Socket, playerPosition: [number, Number, Number]){
+        socket.emit("update_game", { position: playerPosition });
+    }
+
+    public async onGameUpdate(socket: Socket, listener: (position: [number, Number, Number]) => void){
+        socket.on("on_game_update", ({position}) => listener(position));
     }
 }
 
