@@ -5,10 +5,6 @@ WORKDIR /app
 COPY ./project/abble-client /app/
 RUN npm install && npm run build
 
-FROM build as local
-
-ENTRYPOINT ["npm", "run", "start"]
-
 FROM nginx AS server
 
 WORKDIR /usr/share/nginx/html
