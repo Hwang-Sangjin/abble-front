@@ -11,6 +11,8 @@ const NFTItemList = [
   {image: 'E.src',name: 'E',price: 'E.price',description: 'E.description'},
   {image: 'F.src',name: 'F',price: 'F.price',description: 'F.description'},
   {image: 'G.src',name: 'G',price: 'G.price',description: 'G.description'},
+  {image: 'G.src',name: 'G',price: 'G.price',description: 'G.description'},
+  {image: 'G.src',name: 'G',price: 'G.price',description: 'G.description'},
 ]
 
 const MarketPage = () => {

@@ -10,8 +10,13 @@
 
 .name-price {
     display: flex;
+    align-items: center;
+}
+.item-name {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .item-price {
-    float: right;
+    margin-left: 50px;
 }
